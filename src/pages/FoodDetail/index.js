@@ -2,17 +2,47 @@ import { ImageBackground, Pressable, StyleSheet, Text, View } from 'react-native
 import React, { useState } from 'react'
 import { FoodDummy6, IcBackWhite } from '../../assets';
 import { Button, Counter, Number, Rating } from '../../components';
+import { useEffect } from 'react';
+import { getData } from '../../utils';
 
 const FoodDetail = ({ navigation, route }) => {
     //params yag dikirim dari home
     const { name, picturePath, description, ingredients, rate, price } = route.params;
     const [totalItem, setTotalItem] = useState(1);
+    const [userProfile, setUserProfile] = useState({});
 
+    useEffect(() => {
+        getData('userProfile').then(res => {
+            setUserProfile(res);
+        })
+    }, [])
     const onCounterChange = (value) => {
         setTotalItem(value)
     }
 
+    const onOrder = () => {
+        const totalPrice = totalItem * price;
+        const driver = 50000;
+        const tax = 10 / 100 * totalPrice;
+        const total = totalPrice + driver + tax;
 
+        const data = {
+            item: {
+                name: name,
+                price: price,
+                picturePath: picturePath,
+            },
+            transaction: {
+                totalItem: totalItem,
+                totalPrice: totalPrice,
+                driver: driver,
+                tax: tax,
+                total: total
+            },
+            userProfile//langsung membuat object
+        }
+        navigation.navigate('OrderSummary', data)
+    }
     return (
         <View style={styles.page}>
             {/* jika ada image yg didalamnya ada content maka gunakan komponen ini */}
@@ -57,7 +87,10 @@ const FoodDetail = ({ navigation, route }) => {
                         <Number number={totalItem * price} style={styles.labelPrice} />
                     </View>
                     <View style={styles.button}>
-                        <Button text="Order Now" onPress={() => navigation.navigate('OrderSummary')} />
+                        <Button
+                            text="Order Now"
+                            onPress={onOrder}
+                        />
                     </View>
                 </View>
             </View>

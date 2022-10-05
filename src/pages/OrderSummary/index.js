@@ -3,27 +3,41 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { FoodDummy1 } from '../../assets'
 import { Button, Gap, Header, ItemListFood, ItemValue } from '../../components'
 
-const OrderSummary = ({ navigation }) => {
+const OrderSummary = ({ navigation, route }) => {
+    const { item, transaction, userProfile } = route.params
     return (
         <ScrollView>
-            <Header title="Payment" subtitle="You deserve better meal" onBack={() => { }} />
+            <Header
+                title="Payment"
+                subtitle="You deserve better meal"
+                onBack={() => navigation.goBack()}
+
+            />
             <View style={styles.content}>
                 <Text style={styles.label}>Item Ordered</Text>
-                <ItemListFood name="Sop Buah" type="order_summary" price="140.000" image={FoodDummy1} items={14} />
+
+                <ItemListFood
+                    name={item.name}
+                    type="order_summary"
+                    price={item.price}
+                    image={{ uri: item.picturePath }}
+                    items={transaction.totalItem}
+                />
+
                 <Text style={styles.label}>Details Transaction</Text>
-                <ItemValue label="Cherry Healthy" value="IDR 18.390.000" />
-                <ItemValue label="Driver" value="IDR 50.000" />
-                <ItemValue label="Tax 10%" value="IDR 1.800.390" />
-                <ItemValue label="Total Price" value="IDR 390.803.000" valueColor='#1ABC9C' />
+                <ItemValue label={item.name} value={transaction.totalPrice} type='currency' />
+                <ItemValue label="Driver" value={transaction.driver} type='currency' />
+                <ItemValue label="Tax 10%" value={transaction.tax} type='currency' />
+                <ItemValue label="Total Price" value={transaction.total} valueColor='#1ABC9C' type='currency' />
             </View>
 
             <View style={styles.content}>
                 <Text style={styles.label}>Deliver to:</Text>
-                <ItemValue label="Name" value="Angga Risky" />
-                <ItemValue label="Phone No." value="0822 0819 9688" />
-                <ItemValue label="Address" value="Setra Duta Palima" />
-                <ItemValue label="House No." value="A5 Hook" />
-                <ItemValue label="City" value="Bandung" />
+                <ItemValue label="Name" value={userProfile.name} />
+                <ItemValue label="Phone No." value={userProfile.phoneNumber} />
+                <ItemValue label="Address" value={userProfile.address} />
+                <ItemValue label="House No." value={userProfile.houseNumber} />
+                <ItemValue label="City" value={userProfile.city} />
 
             </View>
 
