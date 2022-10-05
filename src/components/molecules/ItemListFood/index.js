@@ -20,7 +20,7 @@ const ItemListFood = ({ image, name, onPress, rating, items, price, type, date, 
                     <>
                         <View style={styles.content}>
                             <Text style={styles.title}>{name}</Text>
-                            <Number number={price} />
+                            <Number number={price} style={styles.price} />
                         </View>
                         <Rate number={rating} />
                     </>
@@ -31,7 +31,7 @@ const ItemListFood = ({ image, name, onPress, rating, items, price, type, date, 
                     <>
                         <View style={styles.content}>
                             <Text style={styles.title}>{name}</Text>
-                            <Text style={styles.price}>IDR {price}</Text>
+                            <Number number={price} style={styles.price} />
                         </View>
                         <Text style={styles.items}>{items} items</Text>
                     </>
@@ -42,9 +42,7 @@ const ItemListFood = ({ image, name, onPress, rating, items, price, type, date, 
                     <>
                         <View style={styles.content}>
                             <Text style={styles.title}>{name}</Text>
-                            <Text style={styles.price}>
-                                {items} items . IDR {price}
-                            </Text>
+                            <Number number={price} style={styles.price} />
                         </View>
                     </>
                 );
@@ -54,9 +52,7 @@ const ItemListFood = ({ image, name, onPress, rating, items, price, type, date, 
                     <>
                         <View style={styles.content}>
                             <Text style={styles.title}>{name}</Text>
-                            <Text style={styles.price}>
-                                {items} items . IDR {price}
-                            </Text>
+                            <Number number={price} style={styles.price} />
                         </View>
                         <View>
                             <Text style={styles.date}>{date}</Text>
@@ -71,7 +67,7 @@ const ItemListFood = ({ image, name, onPress, rating, items, price, type, date, 
                     <>
                         <View style={styles.content}>
                             <Text style={styles.title}>{name}</Text>
-                            <Text style={styles.price}>IDR {price}</Text>
+                            <Number number={price} style={styles.price} />
                         </View>
                         <Rate />
                     </>
@@ -81,11 +77,6 @@ const ItemListFood = ({ image, name, onPress, rating, items, price, type, date, 
 
     return (
         <Pressable
-            // android_ripple={{
-            //     color: 'rgb(224, 224, 224)',
-            //     borderless: false,
-            //     foreground: true
-            // }}
             onPress={onPress}
             style={({ pressed }) => [
                 {

@@ -8,9 +8,9 @@ const Rate = ({ number }) => {
         let star = [];
         for (let i = 1; i <= 5; i++) {
             if (i <= number) {
-                star.push(<IcStarOn />);
+                star.push(<IcStarOn key={i} />);
             } else {
-                star.push(<IcStarOff />)
+                star.push(<IcStarOff key={i} />)
             }
         }
         return star;
@@ -20,7 +20,7 @@ const Rate = ({ number }) => {
             <View style={styles.starContainer}>
                 {renderStar()}
             </View>
-            <Number number={number} type="decimal" />
+            <Number number={number} type="decimal" style={styles.numberRate} />
         </View>
     )
 }
@@ -30,10 +30,14 @@ export default Rate
 const styles = StyleSheet.create({
     rateContainer: {
         flexDirection: 'row',
-        alignItems: 'center'
     },
     starContainer: {
         flexDirection: 'row',
         marginRight: 4
+    },
+    numberRate: {
+        fontSize: 12,
+        fontFamily: 'Poppins-Regular',
+        color: '#8D92A3',
     }
 })

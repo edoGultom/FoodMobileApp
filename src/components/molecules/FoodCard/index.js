@@ -7,12 +7,6 @@ const FoodCard = ({ image, name, rating, onPress }) => {
 
         <View style={styles.container}>
             <Pressable
-                // android_ripple={{
-                //     // color: 'rgb(224, 224, 224)',
-                //     foreground: true,
-                //     borderless: false,
-
-                // }}
                 onPress={onPress}
                 style={({ pressed }) => [
                     {

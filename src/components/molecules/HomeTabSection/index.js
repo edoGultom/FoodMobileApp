@@ -43,7 +43,7 @@ const NewTaste = () => {
                                 price={item.price}
                                 rating={item.rate}
                                 image={{ uri: item.picturePath }}
-                                onPress={() => navigation.navigate('FoodDetail')}
+                                onPress={() => navigation.navigate('FoodDetail', item)}
 
                             />
                         );
@@ -74,7 +74,7 @@ const Popular = () => {
                                 type="product"
                                 price={item.price}
                                 rating={item.rate}
-                                onPress={() => navigation.navigate('FoodDetail')}
+                                onPress={() => navigation.navigate('FoodDetail', item)}
                             />
 
                         )
@@ -105,7 +105,7 @@ const Recommended = () => {
                                 type="product"
                                 price={item.price}
                                 rating={item.rate}
-                                onPress={() => navigation.navigate('FoodDetail')}
+                                onPress={() => navigation.navigate('FoodDetail', item)}
                             />
 
                         );
@@ -116,6 +116,7 @@ const Recommended = () => {
     );
 };
 const initialLayout = { width: Dimensions.get('window').width };
+
 const HomeTabSection = ({ foods }) => {
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
@@ -129,6 +130,7 @@ const HomeTabSection = ({ foods }) => {
         2: Popular,
         3: Recommended,
     });
+    const navigation = useNavigation();
 
     return (
         <CollapsibleHeaderTabView
@@ -144,6 +146,7 @@ const HomeTabSection = ({ foods }) => {
                                         image={{ uri: itemFood.picturePath }}
                                         name={itemFood.name}
                                         rating={itemFood.rate}
+                                        onPress={() => navigation.navigate('FoodDetail', itemFood)}
                                     />
                                 )
                             })

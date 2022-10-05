@@ -1,13 +1,22 @@
 import { ImageBackground, Pressable, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { FoodDummy6, IcBackWhite } from '../../assets';
-import { Button, Counter, Rating } from '../../components';
+import { Button, Counter, Number, Rating } from '../../components';
 
-const FoodDetail = ({ navigation }) => {
+const FoodDetail = ({ navigation, route }) => {
+    //params yag dikirim dari home
+    const { name, picturePath, description, ingredients, rate, price } = route.params;
+    const [totalItem, setTotalItem] = useState(1);
+
+    const onCounterChange = (value) => {
+        setTotalItem(value)
+    }
+
+
     return (
         <View style={styles.page}>
             {/* jika ada image yg didalamnya ada content maka gunakan komponen ini */}
-            <ImageBackground source={FoodDummy6} style={styles.cover}>
+            <ImageBackground source={{ uri: picturePath }} style={styles.cover}>
                 <Pressable
                     android_ripple={{
                         color: 'rgb(224, 224, 224)',
@@ -15,6 +24,7 @@ const FoodDetail = ({ navigation }) => {
                         foreground: true
                     }}
                     style={styles.back}
+                    onPress={() => navigation.goBack()}
                 >
                     <IcBackWhite />
                 </Pressable>
@@ -26,26 +36,25 @@ const FoodDetail = ({ navigation }) => {
                 <View style={styles.mainContent}>
                     <View style={styles.productContainer}>
                         <View>
-                            <Text style={styles.title}>Cherry Healthy</Text>
-                            <Rating />
+                            <Text style={styles.title}>{name}</Text>
+                            <Rating number={rate} />
                         </View>
-                        <Counter />
+
+                        {/* kalau valuenya berubah kirimkan callback biar dipakai di onCounterChange  */}
+                        <Counter onValueChange={onCounterChange} />
                     </View>
 
                     <Text style={styles.description}>
-                        Makanan khas Bandung yang cukup sering
-                        dipesan oleh anak muda dengan pola makan
-                        yang cukup tinggi dengan mengutamakan
-                        diet yang sehat dan teratur.
+                        {description}
                     </Text>
                     <Text style={styles.label}>Ingredients:</Text>
-                    <Text style={styles.description}>Seledri, telur, blueberry, madu.</Text>
+                    <Text style={styles.description}>{ingredients}</Text>
                 </View>
 
                 <View style={styles.footer}>
                     <View style={styles.priceContainer}>
                         <Text style={styles.labelTotal}>Total Price:</Text>
-                        <Text style={styles.labelPrice}>IDR 12.289.000</Text>
+                        <Number number={totalItem * price} style={styles.labelPrice} />
                     </View>
                     <View style={styles.button}>
                         <Button text="Order Now" onPress={() => navigation.navigate('OrderSummary')} />
