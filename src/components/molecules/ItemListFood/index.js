@@ -81,12 +81,26 @@ const ItemListFood = ({ image, name, onPress, rating, items, price, type, date, 
 
     return (
         <Pressable
-            android_ripple={{
-                color: 'rgb(224, 224, 224)',
-                borderless: false,
-                foreground: true
-            }}
+            // android_ripple={{
+            //     color: 'rgb(224, 224, 224)',
+            //     borderless: false,
+            //     foreground: true
+            // }}
             onPress={onPress}
+            style={({ pressed }) => [
+                {
+                    backgroundColor: pressed
+                        ? 'rgb(224, 224, 224)'
+                        : 'white'
+                },
+                {
+                    opacity: pressed
+                        ? 0.7
+                        : 1
+                },
+                styles.wrapperCustom
+
+            ]}
 
         >
             <View style={styles.container}>
@@ -100,6 +114,10 @@ const ItemListFood = ({ image, name, onPress, rating, items, price, type, date, 
 export default ItemListFood
 
 const styles = StyleSheet.create({
+    wrapperCustom: {
+        borderRadius: 8,
+        padding: 6
+    },
     container: {
         flexDirection: 'row',
         paddingVertical: 8,

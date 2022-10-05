@@ -1,20 +1,44 @@
-import { StyleSheet, Text, View, Image } from 'react-native'
+import { StyleSheet, Text, View, Image, Pressable } from 'react-native'
 import React from 'react'
 import Rate from '../Rate'
 
-const FoodCard = ({ image, name, rating }) => {
+const FoodCard = ({ image, name, rating, onPress }) => {
     return (
+
         <View style={styles.container}>
-            <Image source={image} style={styles.image} />
+            <Pressable
+                // android_ripple={{
+                //     // color: 'rgb(224, 224, 224)',
+                //     foreground: true,
+                //     borderless: false,
 
-            {/* title and rate */}
-            <View style={styles.content}>
+                // }}
+                onPress={onPress}
+                style={({ pressed }) => [
+                    {
+                        backgroundColor: pressed
+                            ? 'rgb(224, 224, 224)'
+                            : 'white'
+                    },
+                    {
+                        opacity: pressed
+                            ? 0.7
+                            : 1
+                    }
 
-                <Text styles={styles.text}>{name}</Text>
+                ]}
+            >
+                <Image source={image} style={styles.image} />
 
-                {/* componenet rate */}
-                <Rate number={rating} />
-            </View>
+                {/* title and rate */}
+                <View style={styles.content}>
+
+                    <Text styles={styles.text}>{name}</Text>
+
+                    {/* componenet rate */}
+                    <Rate number={rating} />
+                </View>
+            </Pressable>
         </View>
     )
 }

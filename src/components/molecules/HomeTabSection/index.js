@@ -177,6 +177,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0,
         borderBottomColor: '#F2F2F2',
         borderBottomWidth: 1,
+        // marginLeft: 20
     },
     tabStyle: { width: 'auto' },
     tabText: (focused) => ({
