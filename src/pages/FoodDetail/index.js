@@ -7,7 +7,7 @@ import { getData } from '../../utils';
 
 const FoodDetail = ({ navigation, route }) => {
     //params yag dikirim dari home
-    const { name, picturePath, description, ingredients, rate, price } = route.params;
+    const { id, name, picturePath, description, ingredients, rate, price, } = route.params;
     const [totalItem, setTotalItem] = useState(1);
     const [userProfile, setUserProfile] = useState({});
 
@@ -26,18 +26,20 @@ const FoodDetail = ({ navigation, route }) => {
         const tax = 10 / 100 * totalPrice;
         const total = totalPrice + driver + tax;
 
+        // key dan value sama tinggal panggil seperti ini
         const data = {
             item: {
-                name: name,
-                price: price,
-                picturePath: picturePath,
+                id,
+                name,
+                price,
+                picturePath,
             },
             transaction: {
-                totalItem: totalItem,
-                totalPrice: totalPrice,
-                driver: driver,
-                tax: tax,
-                total: total
+                totalItem,
+                totalPrice,
+                driver,
+                tax,
+                total,
             },
             userProfile//langsung membuat object
         }

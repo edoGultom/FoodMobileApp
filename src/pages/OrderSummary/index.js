@@ -1,10 +1,71 @@
-import React from 'react'
+import Axios from 'axios';
+import React, { useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { FoodDummy1 } from '../../assets'
-import { Button, Gap, Header, ItemListFood, ItemValue } from '../../components'
+import { Button, Gap, Header, ItemListFood, ItemValue, Loading } from '../../components'
+import { getData } from '../../utils'
+import { API_HOST } from '../../config';
+import { WebView } from 'react-native-webview';
 
 const OrderSummary = ({ navigation, route }) => {
     const { item, transaction, userProfile } = route.params
+    const [token, setToken] = useState('');
+    const [isPaymentOpen, setIsPaymentOpen] = useState(false);
+    const [paymentUrl, setPaymentUrl] = useState('https://google.com');
+
+
+    useEffect(() => {
+        getData('token').then(res => {
+            setToken(res.value);
+        })
+    }, []);
+    const onCheckOut = () => {
+        const data = {
+            food_id: item.id,
+            user_id: userProfile.id,
+            quantity: transaction.totalItem,
+            total: transaction.total,
+            status: 'PENDING'
+        }
+        Axios.post(`${API_HOST.url}/checkout`, data, {
+            headers: {
+                'Authorization': token,
+            }
+        }).then(res => {
+            // console.log('checkout success ', res.data)
+            setIsPaymentOpen(true);
+            setPaymentUrl(res.data.data.payment_url);
+
+        }).catch(err => {
+            console.log('error checkout : ', err)
+        })
+
+    }
+    const onNavChange = (state) => {
+        // console.log('nav : ', state)
+        if (String(state.url).includes('#/406')) {
+            navigation.replace('SuccessOrder')
+        }
+    }
+    if (isPaymentOpen) {
+        return (
+            <>
+                <Header
+                    title="Payment"
+                    subtitle="You deserve better meal"
+                    onBack={() => setIsPaymentOpen(false)}
+                />
+                {/* di webview kita bisa tau perubahan yg dilakukan disini */}
+                <WebView
+                    source={{ uri: paymentUrl }}
+                    startInLoadingState={true}
+                    renderLoading={() => <Loading />}
+                    onNavigationStateChange={onNavChange}//kita bisa melihat perubahan url (untuk kebutuhan redirect success)
+                />
+            </>
+        )
+    }
+
     return (
         <ScrollView>
             <Header
@@ -42,7 +103,10 @@ const OrderSummary = ({ navigation, route }) => {
             </View>
 
             <View style={styles.button}>
-                <Button text="Checkout Now" onPress={() => navigation.replace('SuccessOrder')} />
+                <Button
+                    text="Checkout Now"
+                    onPress={onCheckOut}
+                />
             </View>
             <Gap height={40} />
         </ScrollView>
