@@ -21,10 +21,10 @@ const OrderSummary = ({ navigation, route }) => {
             total: transaction.total,
             status: 'PENDING'
         }
-        getData('token').then(res => {
+        getData('token').then((res) => {
             Axios.post(`${API_HOST.url}/checkout`, data, {
                 headers: {
-                    'Authorization': token,
+                    'Authorization': res.value,
                 }
             }).then(res => {
                 setIsPaymentOpen(true);

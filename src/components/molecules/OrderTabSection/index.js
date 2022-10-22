@@ -45,7 +45,7 @@ const InProgress = () => {
                         rating={order.food.rate}
                         price={order.total}
                         type="in_progress"
-                        onPress={() => navigation.navigate('OrderDetail')}
+                        onPress={() => navigation.navigate('OrderDetail', order)}
                     />
                 })}
             </View>
@@ -75,7 +75,7 @@ const PastOrder = () => {
                         type="past_orders"
                         date={order.created_at}
                         status={order.status}
-                        onPress={() => navigation.navigate('OrderDetail')}
+                        onPress={() => navigation.navigate('OrderDetail', order)}
                     />
                 })}
             </View>
