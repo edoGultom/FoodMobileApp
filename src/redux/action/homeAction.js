@@ -9,7 +9,7 @@ export const getFood = createAsyncThunk(
             const response = await axios.get(`${API_HOST.url}/food`);
             return response.data.data.data;
         } catch (error) {
-            console.error(error);
+            console.log(error);
         }
     },
 );
@@ -20,7 +20,7 @@ export const getFoodByTypes = createAsyncThunk(
             const response = await axios.get(`${API_HOST.url}/food?types=${types}`);
             return response.data.data.data;
         } catch (error) {
-            console.error(error);
+            console.log(error);
         }
     },
 );

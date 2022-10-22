@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { HScrollView } from 'react-native-head-tab-view';
 import { SceneMap, TabBar } from 'react-native-tab-view';
@@ -7,6 +7,9 @@ import { CollapsibleHeaderTabView } from 'react-native-tab-view-collapsible-head
 import { FoodDummy1, FoodDummy2, FoodDummy3, FoodDummy4 } from '../../../assets';
 import { FoodCard, Gap } from '../..';
 import ItemListFood from '../ItemListFood';
+import { useDispatch, useSelector } from 'react-redux';
+import { getInPastOrder, getInProgress } from '../../../redux/action';
+import { getData } from '../../../utils';
 
 const renderTabBar = (props) => (
     <TabBar
@@ -23,30 +26,28 @@ const renderTabBar = (props) => (
 
 const InProgress = () => {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
+    const { inProgress } = useSelector(state => state.orderReducer)
+    useEffect(() => {
+        getData('token').then(res => {
+            dispatch(getInProgress(res.value))
+        })
+    }, []);
     return (
         <HScrollView index={0} vertival showsVerticalScrollIndicator={false}>
             <View style={styles.containerNewTaste}>
-                <ItemListFood
-                    image={FoodDummy1}
-                    name="Sop Bumil"
-                    items={3} price="2000.000"
-                    type="in_progress"
-                    onPress={() => navigation.navigate('OrderDetail')}
-                />
-                <ItemListFood
-                    image={FoodDummy2}
-                    name="Pecel Lele"
-                    items={1}
-                    type="in_progress"
-                    onPress={() => navigation.navigate('OrderDetail')}
-                />
-                <ItemListFood
-                    image={FoodDummy3}
-                    name="Nasi Goreng Kampung"
-                    items={2}
-                    type="in_progress"
-                    onPress={() => navigation.navigate('OrderDetail')}
-                />
+                {inProgress.map(order => {
+                    return <ItemListFood
+                        key={order.id}
+                        image={{ uri: order.food.picturePath }}
+                        name={order.food.name}
+                        items={order.quantity}
+                        rating={order.food.rate}
+                        price={order.total}
+                        type="in_progress"
+                        onPress={() => navigation.navigate('OrderDetail')}
+                    />
+                })}
             </View>
         </HScrollView>
     );
@@ -54,34 +55,29 @@ const InProgress = () => {
 
 const PastOrder = () => {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
+    const { pastOrder } = useSelector(state => state.orderReducer)
+    useEffect(() => {
+        getData('token').then(res => {
+            dispatch(getInPastOrder(res.value))
+        })
+    }, []);
     return (
         <HScrollView index={1} vertival showsVerticalScrollIndicator={false}>
             <View style={styles.containerPopular}>
-                <ItemListFood
-                    image={FoodDummy3}
-                    name="Jus Mangga"
-                    items={3} price="2000.000"
-                    type="past_orders"
-                    date="Jun 12, 14:00"
-                    onPress={() => navigation.navigate('OrderDetail')}
-                />
-                <ItemListFood
-                    image={FoodDummy2}
-                    name="Jus Pokat"
-                    items={3} price="2000.000"
-                    type="past_orders"
-                    date="Mei 2, 09:00"
-                    status="Cancelled"
-                    onPress={() => navigation.navigate('OrderDetail')}
-                />
-                <ItemListFood
-                    image={FoodDummy1}
-                    name="Jus Timun"
-                    items={3} price="2000.000"
-                    type="past_orders"
-                    date="Mei 2, 09:00"
-                    onPress={() => navigation.navigate('OrderDetail')}
-                />
+                {pastOrder.map(order => {
+                    return <ItemListFood
+                        key={order.id}
+                        image={{ uri: order.food.picturePath }}
+                        name={order.food.name}
+                        items={order.quantity}
+                        price={order.total}
+                        type="past_orders"
+                        date={order.created_at}
+                        status={order.status}
+                        onPress={() => navigation.navigate('OrderDetail')}
+                    />
+                })}
             </View>
         </HScrollView>
     );

@@ -69,6 +69,7 @@ const Popular = () => {
                     popular.map((item) => {
                         return (
                             <ItemListFood
+                                key={item.id}
                                 image={{ uri: item.picturePath }}
                                 name={item.name}
                                 type="product"
@@ -100,6 +101,7 @@ const Recommended = () => {
                     recommended.map((item) => {
                         return (
                             <ItemListFood
+                                key={item.id}
                                 image={{ uri: item.picturePath }}
                                 name={item.name}
                                 type="product"

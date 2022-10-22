@@ -1,10 +1,9 @@
 import React from 'react';
-import { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { Button, Gap, Header, TextInput } from '../../components';
 import { signInAction } from '../../redux/action/authAction';
-import { getData, useForm } from '../../utils';
+import { useForm } from '../../utils';
 
 const SignIn = ({ navigation }) => {
     const dispatch = useDispatch();

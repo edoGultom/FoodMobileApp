@@ -13,12 +13,6 @@ const OrderSummary = ({ navigation, route }) => {
     const [isPaymentOpen, setIsPaymentOpen] = useState(false);
     const [paymentUrl, setPaymentUrl] = useState('https://google.com');
 
-
-    useEffect(() => {
-        getData('token').then(res => {
-            setToken(res.value);
-        })
-    }, []);
     const onCheckOut = () => {
         const data = {
             food_id: item.id,
@@ -27,24 +21,24 @@ const OrderSummary = ({ navigation, route }) => {
             total: transaction.total,
             status: 'PENDING'
         }
-        Axios.post(`${API_HOST.url}/checkout`, data, {
-            headers: {
-                'Authorization': token,
-            }
-        }).then(res => {
-            // console.log('checkout success ', res.data)
-            setIsPaymentOpen(true);
-            setPaymentUrl(res.data.data.payment_url);
+        getData('token').then(res => {
+            Axios.post(`${API_HOST.url}/checkout`, data, {
+                headers: {
+                    'Authorization': token,
+                }
+            }).then(res => {
+                setIsPaymentOpen(true);
+                setPaymentUrl(res.data.data.payment_url);
 
-        }).catch(err => {
-            console.log('error checkout : ', err)
+            }).catch(err => {
+                console.log('error checkout : ', err)
+            })
         })
 
     }
     const onNavChange = (state) => {
-        // console.log('nav : ', state)
         if (String(state.url).includes('#/406')) {
-            navigation.replace('SuccessOrder')
+            navigation.reset({ index: 0, routes: [{ name: 'SuccessOrder' }] })
         }
     }
     if (isPaymentOpen) {

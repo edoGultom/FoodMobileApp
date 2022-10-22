@@ -1,15 +1,28 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 import { Header, OrderTabSection } from '../../components'
 import EmptyOrder from '../../components/molecules/EmptyOrder'
+import { getOrders } from '../../redux/action'
+import { getData } from '../../utils'
 
 const Order = () => {
-    const [isEmpty] = useState(false)
+    const [isEmpty] = useState(false);
+    const dispatch = useDispatch();
+    const { orders } = useSelector(state => state.orderReducer);
+
+    useEffect(() => {
+        getData('token').then(res => {
+            dispatch(getOrders(res.value))
+
+        })
+    }, []);
+
     return (
         <View style={styles.container}>
             {
-
-                isEmpty ?
+                orders.length < 1
+                    ?
                     <EmptyOrder />
                     :
                     <View style={styles.content}>
