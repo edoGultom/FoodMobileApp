@@ -2,21 +2,26 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import Axios from 'axios';
 
 import { API_HOST } from '../../config';
+import { addLoading } from "../reducer/globalSlice";
 export const getOrders = createAsyncThunk(
     "order/getOrders",
-    async (token) => {
+    async (token, { dispatch }) => {
         try {
+            dispatch(addLoading(true))
             const response = await Axios.get(`${API_HOST.url}/transaction`, {
                 headers: {
                     Authorization: token
                 }
             });
+            dispatch(addLoading(false))
             return response.data.data.data;
         } catch (error) {
+            dispatch(addLoading(false))
             console.log(error);
         }
     }
 );
+
 
 export const getInProgress = createAsyncThunk(
     "order/getInProgress",

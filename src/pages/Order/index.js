@@ -14,7 +14,6 @@ const Order = () => {
     useEffect(() => {
         getData('token').then(res => {
             dispatch(getOrders(res.value))
-
         })
     }, []);
 
