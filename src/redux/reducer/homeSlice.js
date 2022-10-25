@@ -6,7 +6,7 @@ export const homeSlice = createSlice({
         foods: [],
         newTaste: [],
         popular: [],
-        recommended: []
+        recommended: [],
     },
     extraReducers: {
         ['home/getFoodData/fulfilled']: (state, action) => {

@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { HomeProfile, HomeTabSection } from '../../components';
 import { getFood } from '../../redux/action';
+import { addLoading } from '../../redux/reducer/globalSlice';
 
 const Home = () => {
     const { foods } = useSelector(state => state.homeReducer)
@@ -10,6 +11,7 @@ const Home = () => {
     useEffect(() => {
         dispatch(getFood())
     }, [])
+
 
     return (
         <View style={styles.page}>
