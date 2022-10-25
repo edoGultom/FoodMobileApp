@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import { Header, OrderTabSection } from '../../components'
+import { Header, Loading, OrderTabSection } from '../../components'
 import EmptyOrder from '../../components/molecules/EmptyOrder'
 import { getOrders } from '../../redux/action'
+import { addLoading } from '../../redux/reducer/globalSlice'
 import { getData } from '../../utils'
 
 const Order = () => {
     const [isEmpty] = useState(false);
     const dispatch = useDispatch();
-    const { orders } = useSelector(state => state.orderReducer);
+    const { orders, isFinish } = useSelector(state => state.orderReducer);
 
     useEffect(() => {
         getData('token').then(res => {
@@ -17,10 +18,11 @@ const Order = () => {
         })
     }, []);
 
+    // console.log('order ', orders)
     return (
         <View style={styles.container}>
             {
-                orders.length < 1
+                isFinish && Object.keys(orders).length === 0
                     ?
                     <EmptyOrder />
                     :

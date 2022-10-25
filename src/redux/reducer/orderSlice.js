@@ -5,12 +5,18 @@ export const orderSlice = createSlice({
     initialState: {
         orders: [],
         inProgress: [],
-        pastOrder: []
+        pastOrder: [],
+        isFinish: false
     },
     extraReducers: {
-        ['order/getOrders/fulfilled']: (state, action) => {
-            state.orders = action.payload;
+        ['order/getOrders/pending']: (state) => {
+            state.isFinish = false;
         },
+        ['order/getOrders/fulfilled']: (state, { payload }) => {
+            state.isFinish = true;
+            state.orders = payload;
+        },
+
         ['order/getInProgress/fulfilled']: (state, action) => {
             state.inProgress = action.payload;
         },

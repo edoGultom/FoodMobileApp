@@ -1,8 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import Axios from 'axios';
-
 import { API_HOST } from '../../config';
 import { addLoading } from "../reducer/globalSlice";
+
 export const getOrders = createAsyncThunk(
     "order/getOrders",
     async (token, { dispatch }) => {
