@@ -1,8 +1,7 @@
+import React, {useEffect, useState} from 'react';
 import {ImageBackground, Pressable, StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
-import {FoodDummy6, IcBackWhite} from '../../assets';
+import {IcBackWhite} from '../../assets';
 import {Button, Counter, Number, Rating} from '../../components';
-import {useEffect} from 'react';
 import {getData} from '../../utils';
 
 const FoodDetail = ({navigation, route}) => {

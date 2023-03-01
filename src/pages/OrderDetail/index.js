@@ -1,10 +1,9 @@
-import {StyleSheet, ScrollView, Text, View} from 'react-native';
+import Axios from 'axios';
 import React from 'react';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {Button, Gap, Header, ItemListFood, ItemValue} from '../../components';
-import {FoodDummy1} from '../../assets';
 import {API_HOST} from '../../config';
 import {getData} from '../../utils';
-import Axios from 'axios';
 
 const OrderDetail = ({route, navigation}) => {
   const order = route.params;
